@@ -1,0 +1,22 @@
+{
+  "name": "find",
+  "version": "1.0.0",
+  "description": "Filters in Discussions",
+  "main": "rules/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soap-team/find.git"
+  },
+  "author": "SOAP @Wikia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/soap-team/find/issues"
+  },
+  "homepage": "https://github.com/soap-team/find#readme",
+  "dependencies": {
+    "sqlite3": "^5.0.0"
+  }
+}
