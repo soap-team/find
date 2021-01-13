@@ -11,7 +11,7 @@ import Filter from './Pages/Filter';
 const lightTheme = createMuiTheme({
   palette: {
     primary: {
-      main: '#00cdd0',
+      main: '#0d47a1',
     },
     secondary: {
       main: '#333',

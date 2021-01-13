@@ -24,10 +24,12 @@ const rows = [
 ];
 
 function Find() {
+  const [filterData, setFilterData] = React.useState(rows);
+
   return (
     <>
       <Typography component="h1" variant="h4">FIND</Typography>
-      <Button variant="outlined" color="secondary">Create a new filter</Button>
+      <Button variant="outlined" component={Link} to="/new">Create a new filter</Button>
       <TableContainer component={Paper}>
         <Table size="small" aria-label="simple table">
           <TableHead>
