@@ -12,16 +12,15 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@material-ui/core';
-import {UnControlled as CodeMirror} from 'react-codemirror2';
-require('codemirror/lib/codemirror.css');
-require('codemirror/theme/neat.css');
-require('codemirror/mode/javascript/javascript.js');
-
+import AceEditor from 'react-ace';
+import "ace-builds/src-min-noconflict/mode-java";
+import "ace-builds/src-min-noconflict/theme-github";
 
 function Filter() {
   const { filterId } = useParams();
 
   const [description, setDescription] = React.useState('');
+  const [hits, setHits] = React.useState(0);
   const [conditions, setConditions] = React.useState('');
   const [notes, setNotes] = React.useState('');
   const [flags, setFlags] = React.useState({
@@ -36,7 +35,7 @@ function Filter() {
   };
 
   const handleConditionsChange = (event) => {
-    // setConditions(event.target.value);
+    setConditions(event.target.value);
   };
 
   const handleNotesChange = (event) => {
@@ -49,55 +48,65 @@ function Filter() {
 
   const handleSave = (event) => {
     event.preventDefault();
+    console.log(description, conditions, notes, flags);
   };
 
   return (
     <>
       <Typography component="h1" variant="h4">Editing filter</Typography>
       <form autoComplete="off" onSubmit={handleSave}>
-        <Grid container>
-          <Grid container item xs={2} justify="flex-end" alignItems="center">
-            <Typography>Filter ID:</Typography>
+        <Grid container className="filter-form" spacing={1}>
+          <Grid container item spacing={1}>
+            <Grid container item xs={2} justify="flex-end" alignItems="center">
+              <Typography>Filter ID:</Typography>
+            </Grid>
+            <Grid item xs>
+              <Typography>{filterId}</Typography>
+            </Grid>
           </Grid>
-          <Grid item xs>
-            <Typography>{filterId}</Typography>
-          </Grid>
-          <Grid container item>
+          <Grid container item spacing={1}>
             <Grid container item xs={2} justify="flex-end" alignItems="center">
               <Typography component="label" htmlFor="description">Description:</Typography>
-              <Typography component="i" variant="body2">(publicly viewable)</Typography>
+              <Typography component="i" variant="body2" align="right">(publicly viewable)</Typography>
             </Grid>
             <Grid item xs>
               <input id="description" onBlur={handleDescriptionChange} defaultValue={description} />
             </Grid>
           </Grid>
-          <Grid container item>
+          <Grid container item spacing={1}>
             <Grid container item xs={2} justify="flex-end" alignItems="center">
+              <Typography>Filter hits:</Typography>
+            </Grid>
+            <Grid item xs>
+              <Typography component="a" href="">{hits} hits</Typography>
+            </Grid>
+          </Grid>
+          <Grid container item spacing={1}>
+            <Grid container item xs={2} justify="flex-end" alignContent="center">
               <Typography component="span">Conditions: </Typography>
             </Grid>
             <Grid item>
-              <CodeMirror
+              <AceEditor
+                mode="java"
+                theme="github"
                 defaultValue={conditions}
                 onBlur={handleConditionsChange}
-                options={{
-                  lineNumbers: true
-                }}
               />
             </Grid>
           </Grid>
-          <Grid container item>
+          <Grid container item spacing={1}>
             <Grid container item xs={2} justify="flex-end" alignItems="center">
               <Typography component="span">Notes:</Typography>
             </Grid>
             <Grid item xs>
-              <TextareaAutosize aria-label="Notes" rowsMin={5} onBlur={handleNotesChange} defaultValue={notes} />
+              <TextareaAutosize id="notes" aria-label="Notes" rowsMin={5} onBlur={handleNotesChange} defaultValue={notes} />
             </Grid>
           </Grid>
-          <Grid container item>
+          <Grid container item spacing={1}>
             <Grid container item xs={2} justify="flex-end" alignItems="center">
               <Typography component="span">Flags:</Typography>
             </Grid>
-            <Grid item xs justify="flex-end" alignItems="center">
+            <Grid item xs>
               <FormGroup>
                 <FormControlLabel
                   control={<Checkbox checked={visibility} onChange={handleFlagsChange} name="visibility" />}
@@ -115,7 +124,7 @@ function Filter() {
             </Grid>
           </Grid>
         </Grid>
-        <Button variant="contained" color="primary" type="submit">Save filter</Button>
+        <Button id="submit-form" variant="contained" color="primary" type="submit">Save filter</Button>
       </form>
     </>
   );

@@ -5,8 +5,10 @@ import {
   Route,
 } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { Container } from '@material-ui/core';
 import Find from './Pages/Find';
 import Filter from './Pages/Filter';
+import './App.css';
 
 const lightTheme = createMuiTheme({
   palette: {
@@ -22,16 +24,18 @@ const lightTheme = createMuiTheme({
 function App() {
   return (
     <ThemeProvider theme={lightTheme}>
-      <Router>
-        <Switch>
-          <Route path="/" exact>
-            <Find />
-          </Route>
-          <Route path="/:filterId">
-            <Filter />
-          </Route>
-        </Switch>
-      </Router>
+      <Container>
+        <Router>
+          <Switch>
+            <Route path="/" exact>
+              <Find />
+            </Route>
+            <Route path="/:filterId">
+              <Filter />
+            </Route>
+          </Switch>
+        </Router>
+      </Container>
     </ThemeProvider>
   );
 }

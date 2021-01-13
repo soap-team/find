@@ -1,0 +1,16 @@
+#ace-editor {
+  border: 1px solid #a2a9b1;
+  width: 100%;
+}
+
+#notes {
+  width: 460px;
+}
+
+.filter-form {
+  border: 1px solid #a2a9b1;
+}
+
+#submit-form {
+  margin-top: 1em;
+}
