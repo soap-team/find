@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/soap-team/find#readme",
   "dependencies": {
+    "irc-upd": "^0.11.0",
+    "messenger": "^0.0.9",
     "sqlite3": "^5.0.0"
   }
 }
