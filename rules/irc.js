@@ -21,17 +21,25 @@ class FindIRC {
 		this.irc = irc;
 		this.feedChannel = feedChannel;
 		this.publisher = publisher;
-		this.wikis = wikis || [];
+		this.wikis = new Set(wikis || []);
+		console.log(this.wikis);
 	}
 
 	setWikis(wikis) {
-		this.wikis = wikis;
+		this.wikis = new Set(wikis);
 	}
 
 	start() {
-		// TODO: config should contain information like IRC channel
-		// IRC should addListener to that channel, send to rulesEngine
-		// and if matches, send to publisher.
+		let _this = this;
+		this.irc.addListener(`message${this.feedChannel}`, function (from, message) {
+			try {
+				// Get wiki via splitting
+				let postURL = message.split('"url":"https://')[1];
+				postURL = postURL.split('","')[0];
+				let wiki = postURL.split('/f/p')[0];
+				console.log(_this.wikis.has(wiki));
+			} catch (e) {}
+		});
 	}
 
 	stop() {

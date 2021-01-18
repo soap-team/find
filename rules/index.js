@@ -18,4 +18,13 @@ let pub = messenger.createSpeaker(11100),
         }
     );
 
-new FindIRC(ircClient, config.irc.channels.discussions, pub);
+let findClient = new FindIRC(
+    ircClient, 
+    config.irc.channels.discussions, 
+    pub, 
+    ['community.fandom.com', 'adoptme.fandom.com']
+);
+
+findClient.start();
+
+console.log(findClient);
