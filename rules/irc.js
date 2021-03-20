@@ -1,6 +1,5 @@
 /**
  * Handler for IRC events from discussions
- * 
  */
 'using strict';
 
@@ -37,13 +36,16 @@ class FindIRC {
 				let postURL = message.split('"url":"https://')[1];
 				postURL = postURL.split('","')[0];
 				let wiki = postURL.split('/f/p')[0];
-				console.log(_this.wikis.has(wiki));
-			} catch (e) {}
+				if (_this.wikis.has(wiki)) {
+					_this.publisher.send('find:wiki-match', {
+						wiki: wiki,
+						url: 'https://' + postURL
+					});
+				}
+			} catch (e) {
+				console.log(e);
+			}
 		});
-	}
-
-	stop() {
-		// TODO: should removeListener from the IRC channel
 	}
 }
 

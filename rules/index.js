@@ -5,6 +5,7 @@ const FindIRC   = require('./irc.js');
 const config    = require('../config.json');
 
 let pub = messenger.createSpeaker(11100),
+    sub = messenger.createListener(11100),
     ircClient = new irc.Client(
         config.irc.host,
         config.irc.nickname, {
@@ -26,5 +27,9 @@ let findClient = new FindIRC(
 );
 
 findClient.start();
+
+sub.on('find:wiki-match', function (msg, data) {
+    console.log(data);
+});
 
 console.log(findClient);

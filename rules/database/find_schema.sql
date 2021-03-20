@@ -21,9 +21,9 @@ create table Wikis (
 );
 
 create table FilteredBy (
-    id       integer primary key autoincrement,
-    filterid integer references Filters,
-    editedby text,
-    editdate date,
-    filter   text
+    filterid intege references Filters,
+    wikiid   intege references Wikis,
+    linkedby text,
+    linkdate date,
+    primary key (filterid, wikiid)
 );
