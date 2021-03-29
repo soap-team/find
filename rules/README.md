@@ -16,7 +16,7 @@ We also have some more helper/backend stuff:
 ## Messenger schema
 Messages are published on port 11100.
 
-**find:wiki-match**
+**find:wiki-trigger-match**
 ```js
 {
     wiki: 'dev.fandom.com',

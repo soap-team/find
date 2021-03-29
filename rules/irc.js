@@ -64,7 +64,7 @@ class FindIRC {
 		this.feedChannel = feedChannel;
 		this.publisher = publisher;
 		this.wikiactions = new Set(wikiactions || []);
-		this.firstline = '';
+		this.overflow = '';
 		console.log(this.wikiactions);
 	}
 
@@ -105,7 +105,19 @@ class FindIRC {
 
 	start() {
 		let _this = this;
-		this.irc.addListener(`message${this.feedChannel}`, function (from, message) {
+        this.irc.addListener(`message${this.feedChannel}`, function(from, message) {
+            // handle overflow
+            if (message.startsWith('{')) {
+                _this.overflow = '';
+            }
+            if (!message.endsWith('}')) {
+                _this.overflow = `${_this.overflow}${message}`;
+                console.log('overflowed');
+                return;
+            } else {
+                message = `${_this.overflow}${message}`;
+            }
+            
 			try {
 				// Get wiki via splitting
 				const post = JSON.parse(message);
@@ -125,7 +137,8 @@ class FindIRC {
                     });
                 }
 			} catch (e) {
-				console.log(e);
+                console.log(e);
+                console.log(message);
 			}
 		});
 	}

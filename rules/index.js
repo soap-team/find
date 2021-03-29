@@ -26,7 +26,11 @@ let findClient = new FindIRC(
     [
         'community.fandom.com:discussion:created',
         'adoptme.fandom.com:discussion:created',
-        'adoptme.fandom.com:discussion:modified'
+        'adoptme.fandom.com:discussion:modified',
+        'noreply.fandom.com:message-wall:created',
+        'noreply.fandom.com:message-wall:modified',
+        'noreply.fandom.com:article-comment:created',
+        'noreply.fandom.com:article-comment:modified',
     ]
 );
 
