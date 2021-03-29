@@ -125,11 +125,53 @@ class DiscussionsApi {
 	}
 }
 
+let DiscussionsUtil = {};
+
+DiscussionsUtil.getLinks = (json) => {
+	let links = [];
+	if (json.content && json.content.length > 0) {
+		json.content.forEach(child => {
+			if (child.type === 'text' || child.type == 'openGraph') {
+				if (child.attrs && child.attrs.url) {
+					links.push(child.attrs.url);
+				}
+				if (child.marks) {
+					child.marks.forEach(mark => {
+						if (mark.attrs && mark.attrs.href) {
+							links.push(mark.attrs.href);
+						}
+					});
+				}
+			}
+			if (child.content) {
+				links = links.concat(DiscussionsUtil.getLinks(child));
+			}
+		});
+	}
+	return links;
+};
+
+DiscussionsUtil.prepareMethods = (user, post) => {
+	return {
+		user,
+		post,
+		getLinks: () => (DiscussionsUtil.getLinks(JSON.parse(post.jsonModel)))
+	}
+}
+
 // const a = new DiscussionsApi();
 // a.getPost('adoptme.fandom.com', '4400000000019946635').then((d) => console.log(d.id));
-// a.getThread('adoptme.fandom.com', '4400000000004254450').then((d) => console.log(d.id));
-// a.getPostWithJsonModel('adoptme.fandom.com', '4400000000019946635').then((d) => console.log(d.id));
+// a.getThread('noreply.fandom.com', '4400000000000059204').then((d) => console.log(d));
+// a.getPostWithJsonModel('noreply.fandom.com', '4400000000000166544').then((postData) => {
+// 	a.getUserDetails(postData.createdBy.name).then((userData) => {
+// 		let context = DiscussionsUtil.prepareMethods(userData, postData);
+// 		console.log(context.getLinks());
+// 	});
+// })
 // a.getPostWithJsonModel('adoptme.fandom.com', '4400000000019946635', '4400000000004254290').then((d) => console.log(d.id));
 // a.getUserDetails('Pcj').then(console.log);
 
-module.exports = DiscussionsApi;
+module.exports = {
+	DiscussionsApi,
+	DiscussionsUtil
+};
