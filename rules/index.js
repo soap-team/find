@@ -23,13 +23,15 @@ let findClient = new FindIRC(
     ircClient, 
     config.irc.channels.discussions, 
     pub, 
-    ['community.fandom.com', 'adoptme.fandom.com']
+    [
+        'community.fandom.com:discussion:created',
+        'adoptme.fandom.com:discussion:created',
+        'adoptme.fandom.com:discussion:modified'
+    ]
 );
 
 findClient.start();
 
-sub.on('find:wiki-match', function (msg, data) {
+sub.on('find:wiki-trigger-match', function(msg, data) {
     console.log(data);
 });
-
-console.log(findClient);

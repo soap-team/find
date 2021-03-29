@@ -9,6 +9,10 @@ We also have some more helper/backend stuff:
 * `api.js`: Discussions API
 * `database/`: ways to communicate to the db
 
+## Terminology
+* 'trigger': a Discussions related action determined from the input feed, formatted `wiki:type:action`
+* 'action': a FIND action performed by the bot after a filter matches
+
 ## Messenger schema
 Messages are published on port 11100.
 
@@ -16,6 +20,9 @@ Messages are published on port 11100.
 ```js
 {
     wiki: 'dev.fandom.com',
+    trigger: 'dev.fandom.com:discussion:created',
+    type: 'discussion-post',
+    action: 'created',
     url: 'https://dev.fandom.com/f/p/4400000000000005551/r/4400000000000015261'
 }
 ```
