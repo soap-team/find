@@ -3,10 +3,6 @@
  */
 'using strict';
 
-// IRC filters publishes messages to 11100
-const messenger = require('messenger');
-const irc       = require('irc-upd');
-
 const WIKI_LANGUAGES = ['de', 'en', 'es', 'fr', 'it', 'ja', 'pl', 'pt-br', 'ru', 'zh', 'zh-tw', 'aa', 'ab', 'ace',
 	'af', 'ak', 'aln', 'am', 'anp', 'ar', 'arc', 'arn', 'ary', 'arz', 'as', 'av', 'avk', 'ay', 'az', 'ba', 'bat-smg',
 	'bcc', 'bcl', 'be', 'be-tarask', 'be-x-old', 'bg', 'bh', 'bho', 'bi', 'bjn', 'bm', 'bn', 'bo', 'bpy', 'bqi', 'br',
@@ -31,7 +27,7 @@ const WIKI_LANGUAGES = ['de', 'en', 'es', 'fr', 'it', 'ja', 'pl', 'pt-br', 'ru',
 	'uz', 'val', 've', 'vec', 'vep', 'vi', 'vls', 'vmf', 'vo', 'vot', 'vro', 'wa', 'war', 'wo', 'wuu', 'xal', 'xh',
     'xmf', 'yi', 'yo', 'yue', 'za', 'zea', 'zh', 'zh-hk', 'zh-tw', 'zu'];
 
-const TYPES = {
+const PLATFORM_TYPE = {
     'article-comment-thread': 'article-comment',
     'article-comment-reply': 'article-comment',
     'message-wall-thread': 'message-wall',
@@ -86,7 +82,7 @@ class FindIRC {
 
 		// Figure out language
 		let lang = '';
-		var match = url.match(/\.(fandom|gamepedia|wikia)\.(com|org|io)\/([^\/]*).*/i);
+		var match = url.match(/\.(fandom|gamepedia|wikia)\.(com|org|io)\/([^/]*).*/i);
 		if (match) {
 			if (WIKI_LANGUAGES.indexOf(match[3]) > -1) {
 				lang = match[3];
@@ -125,7 +121,7 @@ class FindIRC {
 
                 const { type, action, url } = post;
                 const wiki = _this._cleanWiki(post.url);
-                const trigger = `${wiki}:${TYPES[type]}:${action}`;
+                const trigger = `${wiki}:${PLATFORM_TYPE[type]}:${action}`;
 
                 if (_this.wikiactions.has(trigger)) {
                     _this.publisher.send('find:wiki-trigger-match', {
@@ -144,4 +140,7 @@ class FindIRC {
 	}
 }
 
-module.exports = FindIRC;
+module.exports = {
+    FindIRC,
+    PLATFORM_TYPE
+};

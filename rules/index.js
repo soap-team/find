@@ -1,8 +1,16 @@
 'using strict';
 const messenger = require('messenger');
 const irc       = require("irc-upd");
-const FindIRC   = require('./irc.js');
+const {
+    FindIRC
+} = require('./irc.js');
 const config    = require('../config.json');
+const mvpRules  = require('./database/mvpdata.json');
+const FindRules = require('./rules.js');
+const {
+    DiscussionsUtil,
+    DiscussionsApi
+} = require('./api');
 
 let pub = messenger.createSpeaker(11100),
     sub = messenger.createListener(11100),
@@ -27,6 +35,8 @@ let findClient = new FindIRC(
         'community.fandom.com:discussion:created',
         'adoptme.fandom.com:discussion:created',
         'adoptme.fandom.com:discussion:modified',
+        'noreply.fandom.com:discussion:created',
+        'noreply.fandom.com:discussion:modified',
         'noreply.fandom.com:message-wall:created',
         'noreply.fandom.com:message-wall:modified',
         'noreply.fandom.com:article-comment:created',
@@ -36,6 +46,6 @@ let findClient = new FindIRC(
 
 findClient.start();
 
-sub.on('find:wiki-trigger-match', function(msg, data) {
-    console.log(data);
-});
+let rulesClient = new FindRules(sub, mvpRules, new DiscussionsApi(), DiscussionsUtil);
+
+rulesClient.start();

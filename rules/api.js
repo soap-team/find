@@ -39,6 +39,20 @@ class DiscussionsApi {
 		.then(resp => resp.json());
 	}
 
+	deletePost(wiki, postId) {
+		const params = {
+			controller: 'DiscussionPost',
+			method: 'delete',
+			postId
+		};
+		return fetch(this.getWikiaPath(wiki, params), {
+			headers: {
+				'User-Agent': this.ua
+			}
+		})
+		.then(resp => resp.json());
+	}
+
 	getThread(wiki, threadId, data) {
 		let params = {
 			controller: 'DiscussionThread',
@@ -48,7 +62,21 @@ class DiscussionsApi {
 		params = { ...params, ...data };
 		return fetch(this.getWikiaPath(wiki, params), {
 			headers: {
-			'User-Agent': this.ua
+				'User-Agent': this.ua
+			}
+		})
+		.then(resp => resp.json());
+	}
+
+	deleteThread(wiki, threadId) {
+		const params = {
+			controller: 'DiscussionThread',
+			method: 'delete',
+			threadId
+		};
+		return fetch(this.getWikiaPath(wiki, params), {
+			headers: {
+				'User-Agent': this.ua
 			}
 		})
 		.then(resp => resp.json());
@@ -119,10 +147,10 @@ class DiscussionsApi {
 				userData.registration = "2006-06-01T00:00:00Z";
 			}
 		});
-		return new Promise((resolve) => {
-			resolve(userData);
-		});
+		return userData;
 	}
+
+	async 
 }
 
 let DiscussionsUtil = {};
