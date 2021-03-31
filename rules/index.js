@@ -11,6 +11,7 @@ const {
     DiscussionsUtil,
     DiscussionsApi
 } = require('./api');
+const FindActions = require('./actions.js');
 
 let pub = messenger.createSpeaker(11100),
     sub = messenger.createListener(11100),
@@ -46,6 +47,12 @@ let findClient = new FindIRC(
 
 findClient.start();
 
-let rulesClient = new FindRules(sub, mvpRules, new DiscussionsApi(), DiscussionsUtil);
+let discussionsApi = new DiscussionsApi({
+    'fandom.com': '',
+    'gamepedia.com': '',
+    'wikia.org': ''
+});
+
+let rulesClient = new FindRules(sub, mvpRules, discussionsApi, DiscussionsUtil, new FindActions(discussionsApi));
 
 rulesClient.start();

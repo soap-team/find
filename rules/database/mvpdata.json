@@ -1,0 +1,29 @@
+{
+    "filters": [
+        {
+            "id": 1,
+            "triggers": [
+            ],
+            "filter": "return (new Date(user.registration) > new Date(Date.now() - 10 * 24 * 60 * 60 * 1000));",
+            "actions": []
+        },
+        {
+            "id": 2,
+            "triggers": [
+                "noreply.fandom.com:discussion:created",
+                "noreply.fandom.com:discussion:modified"
+            ],
+            "filter": "return post.rawContent.includes('hello');",
+            "actions": [
+                {
+                    "action": "delete"
+                },
+                {
+                    "action": "log",
+                    "webhook": "",
+                    "content": "$id: user is Noreplyz, $url"
+                }
+            ]
+        }
+    ]
+}

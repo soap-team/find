@@ -108,7 +108,6 @@ class FindIRC {
             }
             if (!message.endsWith('}')) {
                 _this.overflow = `${_this.overflow}${message}`;
-                console.log('overflowed');
                 return;
             } else {
                 message = `${_this.overflow}${message}`;

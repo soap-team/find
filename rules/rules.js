@@ -9,27 +9,33 @@ class FindRules {
 	 * Handles rule checking when a post arrives in the listener.
 	 * @param  {messenger.Listener} listener
 	 */
-	constructor(listener, rules, discussionsApi, discussionsUtil) {
+	constructor(listener, rules, discussionsApi, discussionsUtil, findActions) {
 		this.listener = listener;
 		this.rules = rules;
 		this.DApi = discussionsApi;
 		this.DiscussionsUtil = discussionsUtil;
+		this.findActions = findActions;
 		this.timing = {};
 	}
 	
 	start() {
 		let _this = this;
-		this.listener.on('find:wiki-trigger-match', async function(msg, data) {
+		this.listener.on('find:wiki-trigger-match', async function(msg, triggerMatch) {
 			let context = null;
 			
 			for (const filter of _this.rules.filters) {
-				if (filter.triggers.includes(data.trigger)) {
+				if (filter.triggers.includes(triggerMatch.trigger)) {
 					if (!context) {
-						const { wiki, type, url } = data;
+						const { wiki, type, url } = triggerMatch;
 						context = await _this.getContext(wiki, type, url);
 					}
 					_this.checkFilter(filter.filter, context).then((res) => {
-						console.log(`${data.trigger} - ${res}`);
+						console.log(`${triggerMatch.trigger} - ${res}`);
+						if (res) {
+							for (const action of filter.actions) {
+								_this.findActions.actionHandler(triggerMatch, context.postData, action);
+							}
+						}
 					});
 				}
 			}
