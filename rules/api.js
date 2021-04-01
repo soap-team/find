@@ -314,10 +314,11 @@ DiscussionsUtil.getLinks = (json) => {
 	return links;
 };
 
-DiscussionsUtil.prepareMethods = (user, post) => {
+DiscussionsUtil.prepareMethods = (user, post, trigger) => {
 	return {
 		user,
 		post,
+		trigger,
 		getLinks: () => (DiscussionsUtil.getLinks(JSON.parse(post.jsonModel)))
 	}
 }

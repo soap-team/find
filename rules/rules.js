@@ -29,9 +29,9 @@ class FindRules {
 						const { wiki, type, url } = triggerMatch;
 						context = await _this.getContext(wiki, type, url);
 					}
-					_this.checkFilter(filter.filter, context).then((res) => {
-						console.log(`${triggerMatch.trigger} - ${res}`);
+					_this.checkFilter(filter.filter, context, triggerMatch).then((res) => {
 						if (res) {
+							console.log(triggerMatch);
 							for (const action of filter.actions) {
 								_this.findActions.actionHandler(triggerMatch, context.postData, action);
 							}
@@ -69,9 +69,9 @@ class FindRules {
 		};
 	}
 	
-	async checkFilter(filter, context) {
+	async checkFilter(filter, context, trigger) {
 		const { userData, postData } = context;
-		let sandbox = this.DiscussionsUtil.prepareMethods(userData, postData);
+		let sandbox = this.DiscussionsUtil.prepareMethods(userData, postData, trigger);
 
 		const result = new VM({ sandbox }).run(`
 			(function() {
