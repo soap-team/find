@@ -17,6 +17,7 @@ const DEFAULT_DOMAIN = DOMAINS[0];
 class DiscussionsApi {
 	constructor(tokens) {
 		this.ua = 'Filters in Discussions (FIND tool); @noreplyz';
+		this.postSource = 'DISCUSSIONS';
 		this.tokens = tokens || {};
 	}
 
@@ -143,6 +144,19 @@ class DiscussionsApi {
 		.then(resp => resp.json());
 	}
 	
+	lockThread(wiki, threadId) {
+		const _this = this;
+		const params = {
+			controller: 'DiscussionThread',
+			method: 'lock',
+			threadId
+		};
+		return fetch(this.getWikiaPath(wiki, params), {
+			headers: _this.generateHeaders(wiki, true)
+		})
+		.then(resp => resp.json());
+	}
+	
 	async getPostWithJsonModel(wiki, postId, threadId) {
 		if (!threadId) {
 			await this.getPost(wiki, postId).then((data) => {
@@ -172,6 +186,53 @@ class DiscussionsApi {
 				reject(e);
 			}
 		});
+	}
+
+	async replyString(wiki, siteId, threadId, message) {
+		const jsonModel = {
+			"type": "doc",
+			"content": [{
+				"type": "paragraph",
+				"content": [{
+					"type": "text",
+					"text": message
+				}]
+			}]
+		}
+		return this.replyJsonModel(wiki, siteId, threadId, jsonModel, {});
+	}
+
+	async replyJsonModel(wiki, siteId, threadId, jsonModel, jsonBody) {
+		const _this = this;
+		const params = {
+			controller: 'DiscussionPost',
+			method: 'create'
+		};
+		let body = {
+			body: '',
+			jsonModel: JSON.stringify(jsonModel),
+			attachments: {
+				contentImages: [],
+				openGraphs: [],
+				atMentions: []
+			},
+			siteId,
+			source: _this.postSource,
+			threadId
+		};
+		body = {
+			...body,
+			...jsonBody
+		};
+
+		return fetch(this.getWikiaPath(wiki, params), {
+			headers: _this.generateHeaders(wiki, true, {
+				'Content-Type': 'application/json'
+			}),
+			body: JSON.stringify(body),
+			method: 'POST'
+		})
+		.then(resp => resp.json());
 	}
 	
 	async getUserDetails(username) {
@@ -263,8 +324,11 @@ DiscussionsUtil.prepareMethods = (user, post) => {
 
 // const a = new DiscussionsApi();
 // console.log(a.tokens);
+// a.replyString('noreply.fandom.com', 1260576, '4400000000000059250', 'abcd').then(
+// 	console.log, console.log
+// );
 // a.deletePost('noreply.fandom.com', '4400000000000166544');
-// a.getPost('adoptme.fandom.com', '4400000000019946635').then((d) => console.log(d.id));
+// a.getPost('adoptme.fandom.com', '4400000000019946635').then((d) => console.log(d));
 // a.getThread('noreply.fandom.com', '4400000000000059204').then((d) => console.log(d));
 // a.getPostWithJsonModel('noreply.fandom.com', '4400000000000166544').then((postData) => {
 // 	a.getUserDetails(postData.createdBy.name).then((userData) => {
@@ -272,7 +336,7 @@ DiscussionsUtil.prepareMethods = (user, post) => {
 // 		console.log(context.getLinks());
 // 	});
 // })
-// a.getPostWithJsonModel('adoptme.fandom.com', '4400000000019946635', '4400000000004254290').then((d) => console.log(d.id));
+// a.getPostWithJsonModel('adoptme.fandom.com', '4400000000019946635', '4400000000004254290').then((d) => console.log(d));
 // a.getUserDetails('Pcj').then(console.log);
 
 module.exports = {

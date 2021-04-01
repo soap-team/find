@@ -1,7 +1,4 @@
 'using strict';
-const {
-    DiscussionsApi
-} = require('./api');
 
 const DISCORD_REGEX = /discord(app)?.com\/api\/webhooks\/([^\/]+)\/([^\/]+)$/i;
 class FindActions {
@@ -15,6 +12,10 @@ class FindActions {
                 return this.delete(trigger, post);
             case 'log':
                 return this.logDiscord(trigger, action);
+            case 'reply':
+                return this.reply(trigger, post, action);
+            case 'lock':
+                return this.lock(trigger, post);
         }
         return new Promise().reject();
     }
@@ -27,7 +28,40 @@ class FindActions {
             case 'discussion-thread':
                 return this.DApi.deleteThread(wiki, post.id);
         }
+        return new Promise().reject();
     }
+    
+    async lock(trigger, post) {
+        const { wiki, type } = trigger;
+        switch (type) {
+            case 'discussion-thread':
+                return this.DApi.lockThread(wiki, post.id);
+        }
+        return new Promise().reject();
+    }
+
+    async reply(trigger, post, action) {
+        const { wiki, type } = trigger;
+        const { siteId } = post;
+        switch (type) {
+            case 'discussion-post':
+            case 'discussion-thread':
+                return this.DApi.replyString(wiki, siteId, post.threadId, action.message);
+        }
+        return new Promise().reject();
+    }
+
+    async replyJson(trigger, post, action) {
+        const { wiki, type } = trigger;
+        const { siteId } = post;
+        switch (type) {
+            case 'discussion-post':
+            case 'discussion-thread':
+                return this.DApi.replyJsonModel(wiki, siteId, post.threadId, action.jsonModel, action.jsonBody);
+        }
+        return new Promise().reject();
+    }
+
 
     async logDiscord(trigger, action) {
         let res = action.webhook.match(DISCORD_REGEX);
@@ -38,6 +72,7 @@ class FindActions {
             }
             return this.DApi.logDiscord(action.webhook, modifiedContent);
         }
+        return new Promise().reject();
     }
 }
 
