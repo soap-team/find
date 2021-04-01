@@ -45,8 +45,9 @@ class FindActions {
         const { siteId } = post;
         switch (type) {
             case 'discussion-post':
-            case 'discussion-thread':
                 return this.DApi.replyString(wiki, siteId, post.threadId, action.message);
+            case 'discussion-thread':
+                return this.DApi.replyString(wiki, siteId, post.id, action.message);
         }
         return new Promise().reject();
     }

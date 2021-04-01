@@ -3,25 +3,19 @@
         {
             "id": 1,
             "triggers": [
+                "community.fandom.com:discussion:created",
+                "noreply.fandom.com:discussion:created"
             ],
-            "filter": "return (new Date(user.registration) > new Date(Date.now() - 10 * 24 * 60 * 60 * 1000));",
-            "actions": []
-        },
-        {
-            "id": 2,
-            "triggers": [
-                "noreply.fandom.com:discussion:created",
-                "noreply.fandom.com:discussion:modified"
-            ],
-            "filter": "return post.rawContent.includes('hello');",
+            "filter": "const lowQuality = ['question', 'help','help!','help me','why','i need help'];return trigger.type === 'discussion-thread' && lowQuality.includes(post.title.toLowerCase().trim());",
             "actions": [
-                {
-                    "action": "delete"
-                },
                 {
                     "action": "log",
                     "webhook": "",
-                    "content": "$id: user is Noreplyz, $url"
+                    "content": "#1: low quality title: <$url>"
+                },
+                {
+                    "action": "reply",
+                    "message": "Hey there! Please edit the title of your post and make it more specific. Titles such as 'Help' give others no indication of what might be going on. Thanks!"
                 }
             ]
         }

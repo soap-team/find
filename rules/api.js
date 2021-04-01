@@ -55,6 +55,15 @@ class DiscussionsApi {
 		});
 	}
 
+	whoami(domain) {
+		return fetch(`https://services.${domain}/whoami`, {
+			headers: this.generateHeaders(domain, true, {
+				'User-Agent': this.ua
+			})
+		})
+		.then(resp => resp.json());
+	}
+
 	generateHeaders(wiki, includeCookie, data) {
 		let headers = {
 			'User-Agent': this.ua
@@ -224,7 +233,7 @@ class DiscussionsApi {
 			...body,
 			...jsonBody
 		};
-
+		
 		return fetch(this.getWikiaPath(wiki, params), {
 			headers: _this.generateHeaders(wiki, true, {
 				'Content-Type': 'application/json'
