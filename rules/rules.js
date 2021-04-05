@@ -72,6 +72,7 @@ class FindRules {
 	
 	async checkFilter(filter, context, trigger) {
 		const { userData, postData } = context;
+		if (!userData || !postData) return false;
 		let sandbox = this.DiscussionsUtil.prepareMethods(userData, postData, trigger);
 
 		const result = new VM({ sandbox }).run(`
