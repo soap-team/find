@@ -100,6 +100,7 @@ class DiscussionsApi {
 		const params = {
 			controller: 'DiscussionPost',
 			method: 'getPost',
+			viewableOnly: false,
 			postId
 		};
 		return fetch(this.getWikiaPath(wiki, params), {
@@ -129,11 +130,12 @@ class DiscussionsApi {
 		let params = {
 			controller: 'DiscussionThread',
 			method: 'getThread',
+			viewableOnly: false,
 			threadId
 		};
 		params = { ...params, ...data };
 		return fetch(this.getWikiaPath(wiki, params), {
-			headers: _this.generateHeaders(wiki, false, {
+			headers: _this.generateHeaders(wiki, true, {
 				'Content-Type': 'application/json'
 			}),
 		})
@@ -170,18 +172,20 @@ class DiscussionsApi {
 		if (!threadId) {
 			await this.getPost(wiki, postId).then((data) => {
 				threadId = data.threadId;
-			});
+			}, () => {});
 		}
 		const thread = await this.getThread(wiki, threadId, {
 			responseGroup: 'full',
+			viewableOnly: false,
 			pivot: (BigInt(postId) + 1n).toString(),
 			limit: 1
 		});
 		return new Promise((resolve, reject) => {
 			try {
+				if (!thread._embedded) resolve();
 				resolve(thread._embedded['doc:posts'][0]);
 			} catch (e) {
-				reject(e);
+				reject();
 			}
 		});
 	}
@@ -301,7 +305,7 @@ let DiscussionsUtil = {};
 
 DiscussionsUtil.getLinks = (json) => {
 	let links = [];
-	if (json.content && json.content.length > 0) {
+	if (json && json.content && json.content.length > 0) {
 		json.content.forEach(child => {
 			if (child.type === 'text' || child.type == 'openGraph') {
 				if (child.attrs && child.attrs.url) {
@@ -323,12 +327,30 @@ DiscussionsUtil.getLinks = (json) => {
 	return links;
 };
 
+DiscussionsUtil.getTextContent = (json) => {
+	let blockstr = json.content.map((block) => {
+		if (block.type === 'paragraph' && block.content) {
+			let str = block.content.map((subBlock) => {
+				return subBlock.text;
+			});
+			return str.join('') + '\n';
+		}
+		return '';
+	});
+	return blockstr.join('');
+}
+
 DiscussionsUtil.prepareMethods = (user, post, trigger) => {
+	let getLinks = () => [];
+	if (post) {
+		getLinks = () => (DiscussionsUtil.getLinks(JSON.parse(post.jsonModel)));
+	}
 	return {
 		user,
 		post,
 		trigger,
-		getLinks: () => (DiscussionsUtil.getLinks(JSON.parse(post.jsonModel)))
+		getLinks,
+		getText: () => (DiscussionsUtil.getTextContent(JSON.parse(post.jsonModel)))
 	}
 }
 

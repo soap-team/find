@@ -60,6 +60,7 @@ class FindRules {
 				});
 			}
 		}
+		if (!postData) return {};
 		await this.DApi.getUserDetails(postData.createdBy.name).then((data) => {
 			userData = data;
 		});
