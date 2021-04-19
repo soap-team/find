@@ -14,13 +14,13 @@ import {
   TableBody
 } from '@material-ui/core';
 
-function createData(id, desc, cons, stat, mod, vis, hit) {
-  return { id, desc, cons, stat, mod, vis, hit };
+function createData(id, name, enab, hit) {
+  return { id, name, enab, hit };
 }
 
 const rows = [
-  createData(0, 'Wall', 'Warn', 'Enabled', 'date', 'private', 5),
-  createData(1, 'test', 'Warn', 'Enabled', 'date', 'private', 10),
+  createData(1, 'test1', 'wiki.fandom.com', 5),
+  createData(2, 'test2', '3 wikis', 10),
 ];
 
 function Find() {
@@ -28,18 +28,15 @@ function Find() {
 
   return (
     <>
-      <Typography component="h1" variant="h4">FIND</Typography>
+      <Typography component="h1" variant="h4">Filter List</Typography>
       <Button variant="outlined" component={Link} to="/new">Create a new filter</Button>
-      <TableContainer component={Paper}>
-        <Table size="small" aria-label="simple table">
+      <TableContainer component={Paper} variant="outlined">
+        <Table size="small" aria-label="Filter list">
           <TableHead>
             <TableRow>
-              <TableCell>Filter ID</TableCell>
-              <TableCell>Public description</TableCell>
-              <TableCell>Consequences</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Last modified</TableCell>
-              <TableCell>Visibility</TableCell>
+              <TableCell>ID</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Enabled on</TableCell>
               <TableCell>Hit count</TableCell>
             </TableRow>
           </TableHead>
@@ -47,15 +44,12 @@ function Find() {
             {rows.map((row) => (
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
-                  <Link to={`${row.id}`}>{row.id}</Link>
+                <Typography component={Link} to={`${row.id}`} variant="body1" className="links" color="inherit">{row.id}</Typography>
                 </TableCell>
                 <TableCell>
-                  <Link to={`${row.id}`}>{row.desc}</Link>  
+                  <Typography component={Link} to={`${row.id}`} variant="body1" className="links" color="inherit">{row.name}</Typography>
                 </TableCell>
-                <TableCell>{row.cons}</TableCell>
-                <TableCell>{row.stat}</TableCell>
-                <TableCell>{row.mod}</TableCell>
-                <TableCell>{row.vis}</TableCell>
+                <TableCell>{row.enab}</TableCell>
                 <TableCell>{row.hit}</TableCell>
               </TableRow>
             ))}

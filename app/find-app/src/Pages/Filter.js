@@ -1,130 +1,147 @@
 import React from 'react';
 import {
-  Link,
   useParams,
 } from 'react-router-dom';
 import { 
   Typography,
-  Grid,
   Button,
-  TextareaAutosize,
+  TextField,
+  Tooltip,
+  Paper,
+  Grid,
+  FormLabel,
   FormGroup,
   FormControlLabel,
   Checkbox,
+  FormControl,
+  FormHelperText,
 } from '@material-ui/core';
-import AceEditor from 'react-ace';
-import "ace-builds/src-min-noconflict/mode-java";
-import "ace-builds/src-min-noconflict/theme-github";
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import {UnControlled as CodeMirror} from 'react-codemirror2';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/material.css';
 
 function Filter() {
   const { filterId } = useParams();
 
+  const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');
-  const [hits, setHits] = React.useState(0);
-  const [conditions, setConditions] = React.useState('');
-  const [notes, setNotes] = React.useState('');
-  const [flags, setFlags] = React.useState({
-    visibility: false,
-    status: false,
-    deleted: false,
+  const [triggers, setTriggers] = React.useState({
+    discThread: false,
+    discReply: false,
+    artCommThread: false,
+    artCommReply: false,
+    messWallThread: false,
+    messWallReply: false,
+    repPost: false,
   });
-  const { visibility, status, deleted } = flags;
+  const {
+    discThread,
+    discReply,
+    artCommThread,
+    artCommReply,
+    messWallThread,
+    messWallReply,
+    repPost,
+  } = triggers;
+
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
 
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
   };
 
-  const handleConditionsChange = (event) => {
-    setConditions(event.target.value);
-  };
-
-  const handleNotesChange = (event) => {
-    setNotes(event.target.value);
-  };
-
-  const handleFlagsChange = (event) => {
-    setFlags({ ...flags, [event.target.name]: event.target.checked });
+  const handleTriggersChange = (event) => {
+    setTriggers({ ...triggers, [event.target.name]: event.target.checked });
   };
 
   const handleSave = (event) => {
     event.preventDefault();
-    console.log(description, conditions, notes, flags);
   };
 
   return (
     <>
-      <Typography component="h1" variant="h4">Editing filter</Typography>
-      <form autoComplete="off" onSubmit={handleSave}>
-        <Grid container className="filter-form" spacing={1}>
-          <Grid container item spacing={1}>
-            <Grid container item xs={2} justify="flex-end" alignItems="center">
-              <Typography>Filter ID:</Typography>
+      <Typography component="h1" variant="h4">Filter #{filterId}</Typography>
+      <form autoComplete="off" onSubmit={handleSave} className="filter-form">
+        <div className="filter-form-item">
+          <Typography component="label" htmlFor="filter-name">Name</Typography>
+          <TextField id="filter-name" variant="outlined" size="small" defaultValue={name} onBlur={handleNameChange} fullWidth />
+        </div>
+        <div className="filter-form-item">
+          <Typography component="label" htmlFor="filter-description">Description</Typography>
+          <TextField id="filter-description" multiline rows={5} variant="outlined" defaultValue={description} onBlur={handleDescriptionChange} fullWidth />
+        </div>
+        <div className="filter-form-item">
+          <Typography component="p">Filter</Typography>
+          <CodeMirror
+            options={{
+              mode: 'xml',
+              lineNumbers: true
+            }}
+            onChange={(editor, data, value) => {
+            }}
+          />
+        </div>
+        <div className="filter-form-item">
+          <Typography component="h2" variant="h5">
+            Triggers and Actions
+            <Tooltip title="info">
+              <InfoOutlinedIcon fontSize="small" />
+            </Tooltip>
+          </Typography>
+          <Paper variant="outlined">
+            <Grid container>
+              <Grid item>
+                Wikis
+                <TextField id="filter-wikis" multiline rows={5} variant="outlined" fullWidth/>
+                
+                <FormControl component="fieldset">
+                  <Typography component="p">Triggers</Typography>
+                  <FormGroup>
+                    <FormControlLabel
+                      control={<Checkbox checked={discThread} onChange={handleTriggersChange} name="discThread" />}
+                      label="discussion thread"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox checked={discReply} onChange={handleTriggersChange} name="discReply" />}
+                      label="discussion reply"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox checked={artCommThread} onChange={handleTriggersChange} name="artCommThread" />}
+                      label="article comment thread"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox checked={artCommReply} onChange={handleTriggersChange} name="artCommReply" />}
+                      label="article comment reply"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox checked={messWallThread} onChange={handleTriggersChange} name="messWallThread" />}
+                      label="message wall thread"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox checked={messWallReply} onChange={handleTriggersChange} name="messWallReply" />}
+                      label="message wall reply"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox checked={repPost} onChange={handleTriggersChange} name="repPost" />}
+                      label="reported post"
+                    />
+                  </FormGroup>
+                  <FormHelperText>You can display an error</FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item>
+                Actions (in order)
+              </Grid>
             </Grid>
-            <Grid item xs>
-              <Typography>{filterId}</Typography>
-            </Grid>
-          </Grid>
-          <Grid container item spacing={1}>
-            <Grid container item xs={2} justify="flex-end" alignItems="center">
-              <Typography component="label" htmlFor="description">Description:</Typography>
-              <Typography component="i" variant="body2" align="right">(publicly viewable)</Typography>
-            </Grid>
-            <Grid item xs>
-              <input id="description" onBlur={handleDescriptionChange} defaultValue={description} />
-            </Grid>
-          </Grid>
-          <Grid container item spacing={1}>
-            <Grid container item xs={2} justify="flex-end" alignItems="center">
-              <Typography>Filter hits:</Typography>
-            </Grid>
-            <Grid item xs>
-              <Typography component="a" href="">{hits} hits</Typography>
-            </Grid>
-          </Grid>
-          <Grid container item spacing={1}>
-            <Grid container item xs={2} justify="flex-end" alignContent="center">
-              <Typography component="span">Conditions: </Typography>
-            </Grid>
-            <Grid item>
-              <AceEditor
-                mode="java"
-                theme="github"
-                defaultValue={conditions}
-                onBlur={handleConditionsChange}
-              />
-            </Grid>
-          </Grid>
-          <Grid container item spacing={1}>
-            <Grid container item xs={2} justify="flex-end" alignItems="center">
-              <Typography component="span">Notes:</Typography>
-            </Grid>
-            <Grid item xs>
-              <TextareaAutosize id="notes" aria-label="Notes" rowsMin={5} onBlur={handleNotesChange} defaultValue={notes} />
-            </Grid>
-          </Grid>
-          <Grid container item spacing={1}>
-            <Grid container item xs={2} justify="flex-end" alignItems="center">
-              <Typography component="span">Flags:</Typography>
-            </Grid>
-            <Grid item xs>
-              <FormGroup>
-                <FormControlLabel
-                  control={<Checkbox checked={visibility} onChange={handleFlagsChange} name="visibility" />}
-                  label="Hide details of this filter from public view"
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={status} onChange={handleFlagsChange} name="status" />}
-                  label="Enable this filter"
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={deleted} onChange={handleFlagsChange} name="deleted" />}
-                  label="Mark as deleted"
-                />
-              </FormGroup>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Button id="submit-form" variant="contained" color="primary" type="submit">Save filter</Button>
+          </Paper>
+        </div>
+        <div className="filter-form-buttons">
+          <Button id="cancel-form" variant="contained" color="secondary" type="button">Cancel</Button>
+          <Button id="submit-form" variant="contained" color="primary" type="submit">Save</Button>
+        </div>
       </form>
     </>
   );

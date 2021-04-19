@@ -6,8 +6,10 @@ import {
 } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
+//import 'fontsource-roboto';
 import Find from './Pages/Find';
 import Filter from './Pages/Filter';
+import NavBar from './Components/NavBar';
 import './App.css';
 
 const lightTheme = createMuiTheme({
@@ -24,8 +26,9 @@ const lightTheme = createMuiTheme({
 function App() {
   return (
     <ThemeProvider theme={lightTheme}>
-      <Container>
-        <Router>
+      <Router>
+        <NavBar />
+        <Container className="container">
           <Switch>
             <Route path="/" exact>
               <Find />
@@ -34,8 +37,8 @@ function App() {
               <Filter />
             </Route>
           </Switch>
-        </Router>
-      </Container>
+        </Container>
+      </Router>
     </ThemeProvider>
   );
 }

@@ -1,16 +1,22 @@
-#ace-editor {
-  border: 1px solid #a2a9b1;
-  width: 100%;
-}
-
-#notes {
-  width: 460px;
+.container {
+  padding: 1em 0 0;
 }
 
 .filter-form {
-  border: 1px solid #a2a9b1;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
 }
 
-#submit-form {
-  margin-top: 1em;
+.filter-form-item {
+  margin: 0.5em 0;
+}
+
+.filter-form-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.links {
+  text-decoration: none;
 }
