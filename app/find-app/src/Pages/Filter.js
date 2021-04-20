@@ -10,23 +10,25 @@ import {
   Tooltip,
   Paper,
   Grid,
-  FormLabel,
   FormGroup,
   FormControlLabel,
   Checkbox,
   FormControl,
-  FormHelperText,
 } from '@material-ui/core';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import {UnControlled as CodeMirror} from 'react-codemirror2';
+import 'codemirror/addon/selection/active-line';
 import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
+import 'codemirror/theme/zenburn.css';
 
-function Filter() {
+function Filter(props) {
+  const { theme } = props;
   const { filterId } = useParams();
 
   const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');
+  const [filter, setFilter] = React.useState('');
+  const [wikis, setWikis] = React.useState('');
   const [triggers, setTriggers] = React.useState({
     discThread: false,
     discReply: false,
@@ -54,37 +56,60 @@ function Filter() {
     setDescription(event.target.value);
   };
 
+  const handleFilterChange = (editor, data, value) => {
+    setFilter(value);
+  };
+
+  const handleWikisChange = (event) => {
+    setWikis(event.target.value);
+  };
+
   const handleTriggersChange = (event) => {
     setTriggers({ ...triggers, [event.target.name]: event.target.checked });
   };
 
   const handleSave = (event) => {
     event.preventDefault();
+    console.log(name, description, filter, triggers, wikis);
   };
 
   return (
     <>
-      <Typography component="h1" variant="h4">Filter #{filterId}</Typography>
+      <Typography component="h1" variant="h5">Filter #{filterId}</Typography>
       <form autoComplete="off" onSubmit={handleSave} className="filter-form">
         <div className="filter-form-item">
-          <Typography component="label" htmlFor="filter-name">Name</Typography>
+          <Typography component="label" htmlFor="filter-name" variant="subtitle1">Name</Typography>
           <TextField id="filter-name" variant="outlined" size="small" defaultValue={name} onBlur={handleNameChange} fullWidth />
         </div>
         <div className="filter-form-item">
-          <Typography component="label" htmlFor="filter-description">Description</Typography>
+          <Typography component="label" htmlFor="filter-description" variant="subtitle1">Description</Typography>
           <TextField id="filter-description" multiline rows={5} variant="outlined" defaultValue={description} onBlur={handleDescriptionChange} fullWidth />
         </div>
         <div className="filter-form-item">
-          <Typography component="p">Filter</Typography>
+          <Typography variant="subtitle1">Filter</Typography>
           <Paper variant="outlined">
-            <CodeMirror
-              options={{
-                mode: 'xml',
-                lineNumbers: true
-              }}
-              onChange={(editor, data, value) => {
-              }}
-            />
+            {
+              theme === 'light' ? 
+              <CodeMirror
+                options={{
+                  mode: 'xml',
+                  lineNumbers: true,
+                  theme: 'default',
+                  styleActiveLine: true,
+                }}
+                onChange={(editor, data, value) => {
+                }}
+              /> : 
+              <CodeMirror
+                options={{
+                  mode: 'xml',
+                  lineNumbers: true,
+                  theme: 'zenburn',
+                  styleActiveLine: true,
+                }}
+                onChange={handleFilterChange}
+              />
+            }
           </Paper>
         </div>
         <div className="filter-form-item">
@@ -95,13 +120,13 @@ function Filter() {
             </Tooltip>
           </Typography>
           <Paper variant="outlined">
-            <Grid container>
+            <Grid container spacing={3}>
               <Grid item>
-                Wikis
-                <TextField id="filter-wikis" multiline rows={5} variant="outlined" fullWidth/>
+                <Typography variant="subtitle1">Wikis</Typography>
+                <TextField id="filter-wikis" multiline rows={5} variant="outlined" onBlur={handleWikisChange} fullWidth/>
                 
                 <FormControl component="fieldset">
-                  <Typography component="p">Triggers</Typography>
+                  <Typography variant="subtitle1">Triggers</Typography>
                   <FormGroup>
                     <FormControlLabel
                       control={<Checkbox checked={discThread} onChange={handleTriggersChange} name="discThread" />}
@@ -132,11 +157,10 @@ function Filter() {
                       label="reported post"
                     />
                   </FormGroup>
-                  <FormHelperText>You can display an error</FormHelperText>
                 </FormControl>
               </Grid>
               <Grid item>
-                Actions (in order)
+                <Typography variant="subtitle1">Actions (in order)</Typography>
               </Grid>
             </Grid>
           </Paper>

@@ -9,6 +9,7 @@ import { Container } from '@material-ui/core';
 import Find from './pages/Find';
 import Filter from './pages/Filter';
 import NavBar from './components/NavBar';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
 
 const lightTheme = {
@@ -26,14 +27,26 @@ const lightTheme = {
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(','),
+    h5: {
+      fontWeight: 700,
+    },
     h6: {
       fontWeight: 700,
       fontSize: '1rem',
-      textJustify: 'center',
+    },
+    subtitle1: {
+      fontWeight: 700,
+      fontSize: '1rem',
+    },
+    body1: {
+      fontSize: '0.875rem',
+      lineHeight: 1.43,
     },
   },
   palette: {
-    type: 'light',
+    primary: {
+      main: '#fff',
+    },
   },
 };
 
@@ -52,14 +65,27 @@ const darkTheme = {
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(','),
+    h5: {
+      fontWeight: 700,
+    },
     h6: {
       fontWeight: 700,
       fontSize: '1rem',
-      textJustify: 'center',
+    },
+    subtitle1: {
+      fontWeight: 700,
+      fontSize: '1rem',
+    },
+    body1: {
+      fontSize: '0.875rem',
+      lineHeight: 1.43,
     },
   },
   palette: {
     type: 'dark',
+    primary: {
+      main: '#424242',
+    },
   },
 };
 
@@ -69,19 +95,21 @@ function App() {
 
   return (
     <ThemeProvider theme={appliedTheme}>
-      <Router>
-        <NavBar theme={theme} setTheme={setTheme} />
-        <Container className="container">
-          <Switch>
-            <Route path="/" exact>
-              <Find />
-            </Route>
-            <Route path="/:filterId">
-              <Filter />
-            </Route>
-          </Switch>
-        </Container>
-      </Router>
+      <CssBaseline>
+        <Router>
+          <NavBar theme={theme} setTheme={setTheme} />
+          <Container className="container">
+            <Switch>
+              <Route path="/" exact>
+                <Find />
+              </Route>
+              <Route path="/:filterId">
+                <Filter theme={theme} />
+              </Route>
+            </Switch>
+          </Container>
+        </Router>
+      </CssBaseline>
     </ThemeProvider>
   );
   

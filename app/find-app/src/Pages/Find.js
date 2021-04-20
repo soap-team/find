@@ -28,7 +28,7 @@ function Find() {
 
   return (
     <>
-      <Typography component="h1" variant="h4">Filter List</Typography>
+      <Typography component="h1" variant="h5">Filter List</Typography>
       <Button variant="outlined" component={Link} to="/new">Create a new filter</Button>
       <TableContainer component={Paper} variant="outlined">
         <Table size="small" aria-label="Filter list">
