@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   useParams,
+  Link,
 } from 'react-router-dom';
 import { 
   Typography,
@@ -75,14 +76,16 @@ function Filter() {
         </div>
         <div className="filter-form-item">
           <Typography component="p">Filter</Typography>
-          <CodeMirror
-            options={{
-              mode: 'xml',
-              lineNumbers: true
-            }}
-            onChange={(editor, data, value) => {
-            }}
-          />
+          <Paper variant="outlined">
+            <CodeMirror
+              options={{
+                mode: 'xml',
+                lineNumbers: true
+              }}
+              onChange={(editor, data, value) => {
+              }}
+            />
+          </Paper>
         </div>
         <div className="filter-form-item">
           <Typography component="h2" variant="h5">
@@ -139,8 +142,8 @@ function Filter() {
           </Paper>
         </div>
         <div className="filter-form-buttons">
-          <Button id="cancel-form" variant="contained" color="secondary" type="button">Cancel</Button>
-          <Button id="submit-form" variant="contained" color="primary" type="submit">Save</Button>
+          <Button variant="contained" color="secondary" type="button" component={Link} to="/">Cancel</Button>
+          <Button variant="contained" color="primary" type="submit" onSubmit={handleSave}>Save</Button>
         </div>
       </form>
     </>

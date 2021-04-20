@@ -6,28 +6,71 @@ import {
 } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
-//import 'fontsource-roboto';
-import Find from './Pages/Find';
-import Filter from './Pages/Filter';
-import NavBar from './Components/NavBar';
+import Find from './pages/Find';
+import Filter from './pages/Filter';
+import NavBar from './components/NavBar';
 import './App.css';
 
-const lightTheme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#0d47a1',
+const lightTheme = {
+  typography: {
+    fontFamily: [
+      'Open Sans',
+      'sans-serif',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    h6: {
+      fontWeight: 700,
+      fontSize: '1rem',
+      textJustify: 'center',
     },
-    secondary: {
-      main: '#333',
-    }
   },
-});
+  palette: {
+    type: 'light',
+  },
+};
+
+const darkTheme = {
+  typography: {
+    fontFamily: [
+      'Open Sans',
+      'sans-serif',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    h6: {
+      fontWeight: 700,
+      fontSize: '1rem',
+      textJustify: 'center',
+    },
+  },
+  palette: {
+    type: 'dark',
+  },
+};
 
 function App() {
+  const [theme, setTheme] = React.useState(localStorage.getItem('theme'));
+  const appliedTheme = createMuiTheme(theme === 'light' ? lightTheme : darkTheme);
+
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={appliedTheme}>
       <Router>
-        <NavBar />
+        <NavBar theme={theme} setTheme={setTheme} />
         <Container className="container">
           <Switch>
             <Route path="/" exact>
@@ -41,6 +84,7 @@ function App() {
       </Router>
     </ThemeProvider>
   );
+  
 }
 
 export default App;
