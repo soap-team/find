@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import {UnControlled as CodeMirror} from 'react-codemirror2';
+import Action from '../components/Action';
 import 'codemirror/addon/selection/active-line';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/zenburn.css';
@@ -120,8 +121,8 @@ function Filter(props) {
             </Tooltip>
           </Typography>
           <Paper variant="outlined">
-            <Grid container spacing={3}>
-              <Grid item>
+            <Grid container spacing={3} className="triggerSection">
+              <Grid item xs={4}>
                 <Typography variant="subtitle1">Wikis</Typography>
                 <TextField id="filter-wikis" multiline rows={5} variant="outlined" onBlur={handleWikisChange} fullWidth/>
                 
@@ -159,15 +160,20 @@ function Filter(props) {
                   </FormGroup>
                 </FormControl>
               </Grid>
-              <Grid item>
+              <Grid item xs>
                 <Typography variant="subtitle1">Actions (in order)</Typography>
+                <Action />
+                <Button variant="contained" color="primary" type="button">+ Add new action</Button>
               </Grid>
             </Grid>
           </Paper>
         </div>
+        <div>
+          <Button variant="contained" color="primary" type="button">+ Add new trigger</Button>
+        </div>
         <div className="filter-form-buttons">
           <Button variant="contained" color="secondary" type="button" component={Link} to="/">Cancel</Button>
-          <Button variant="contained" color="primary" type="submit" onSubmit={handleSave}>Save</Button>
+          <Button variant="contained" color="primary" type="submit">Save</Button>
         </div>
       </form>
     </>

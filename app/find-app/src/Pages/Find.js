@@ -11,7 +11,8 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody
+  TableBody,
+  Box,
 } from '@material-ui/core';
 
 function createData(id, name, enab, hit) {
@@ -29,7 +30,9 @@ function Find() {
   return (
     <>
       <Typography component="h1" variant="h5">Filter List</Typography>
-      <Button variant="outlined" component={Link} to="/new">Create a new filter</Button>
+      <Box display="flex" justifyContent="flex-end">
+        <Button variant="contained" color="primary" component={Link} to="/new">+ Add new filter</Button>
+      </Box>
       <TableContainer component={Paper} variant="outlined">
         <Table size="small" aria-label="Filter list">
           <TableHead>

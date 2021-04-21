@@ -1,7 +1,3 @@
-.container {
-  padding: 1em 0 0;
-}
-
 .filter-form {
   display: flex;
   flex-direction: column;
@@ -19,4 +15,8 @@
 
 .links {
   text-decoration: none;
+}
+
+.triggerSection {
+  padding: 1em;
 }

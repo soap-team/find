@@ -5,7 +5,10 @@ import {
   Route,
 } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { Container } from '@material-ui/core';
+import {
+  Container,
+  Box,
+} from '@material-ui/core';
 import Find from './pages/Find';
 import Filter from './pages/Filter';
 import NavBar from './components/NavBar';
@@ -98,7 +101,7 @@ function App() {
       <CssBaseline>
         <Router>
           <NavBar theme={theme} setTheme={setTheme} />
-          <Container className="container">
+          <Box component={Container} mt={5}>
             <Switch>
               <Route path="/" exact>
                 <Find />
@@ -107,7 +110,7 @@ function App() {
                 <Filter theme={theme} />
               </Route>
             </Switch>
-          </Container>
+          </Box>
         </Router>
       </CssBaseline>
     </ThemeProvider>
