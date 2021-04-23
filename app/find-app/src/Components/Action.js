@@ -1,8 +1,4 @@
 import React from 'react';
-import {
-  Link,
-  useParams,
-} from 'react-router-dom';
 import { 
   Typography,
   Grid,
@@ -10,18 +6,23 @@ import {
   Select,
   Paper,
   Box,
-  TextField,
 } from '@material-ui/core';
+import ActionLog from './ActionLog';
+import ActionReplySingleLine from './ActionReplySingleLine';
+import ActionReplyCustom from './ActionReplyCustom';
+import ActionMove from './ActionMove';
 
-function Action() {
-  const [action, setAction] = React.useState(10);
+function Action(props) {
+  const { id, actionId, action, triggers, setTriggers } = props;
 
   const handleChange = (event) => {
-    setAction(event.target.value);
+    const newTriggers = [...triggers];
+    newTriggers[id].actions[actionId].type = event.target.value;
+    setTriggers(newTriggers);
   };
 
   return (
-    <Box component={Paper} variant="outlined" px={2} pt={2}>
+    <Box component={Paper} variant="outlined" p={2}>
       <Grid container direction="column" spacing={2}>
         <Grid item>
           <Grid container alignItems="center">
@@ -29,42 +30,21 @@ function Action() {
               <Typography component="label" htmlFor="action-type" variant="subtitle1">Type</Typography>
             </Grid>
             <Grid item xs>
-              <Select id="action-type" size="small" variant="outlined" value={action} onChange={handleChange} fullWidth>
-                <MenuItem value={10}>Log to Discord</MenuItem>
-                <MenuItem value={20}>Delete</MenuItem>
-                <MenuItem value={30}>Lock (thread only)</MenuItem>
-                <MenuItem value={40}>Reply single line</MenuItem>
-                <MenuItem value={50}>Reply custom</MenuItem>
-                <MenuItem value={40}>Move to category</MenuItem>
+              <Select id="action-type" size="small" variant="outlined" value={action.type} onChange={handleChange} fullWidth>
+                <MenuItem value={1}>Log to Discord</MenuItem>
+                <MenuItem value={2}>Delete</MenuItem>
+                <MenuItem value={3}>Lock (thread only)</MenuItem>
+                <MenuItem value={4}>Reply single line</MenuItem>
+                <MenuItem value={5}>Reply custom</MenuItem>
+                <MenuItem value={6}>Move to category</MenuItem>
               </Select>
             </Grid>
           </Grid>
         </Grid>
-        {
-          action === 10 &&
-          <>
-            <Grid item>
-              <Grid container alignItems="center">
-                <Grid item xs={3}>
-                  <Typography component="label" htmlFor="log-text" variant="subtitle1">Text</Typography>
-                </Grid>
-                <Grid item xs>
-                  <TextField id="log-text" size="small" variant="outlined" fullWidth />
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item>
-              <Grid container alignItems="center">
-                <Grid item xs={3}>
-                  <Typography component="label" htmlFor="log-webhook" variant="subtitle1">Webhook URL</Typography>
-                </Grid>
-                <Grid item xs>
-                  <TextField id="log-webhook" size="small" variant="outlined" fullWidth />
-                </Grid>
-              </Grid>
-            </Grid>
-          </>
-        }
+        {action.type === 1 && <ActionLog id={id} actionId={actionId} triggers={triggers} setTriggers={setTriggers} />}
+        {action.type === 4 && <ActionReplySingleLine id={id} actionId={actionId} triggers={triggers} setTriggers={setTriggers} />}
+        {action.type === 5 && <ActionReplyCustom id={id} actionId={actionId} triggers={triggers} setTriggers={setTriggers} />}
+        {action.type === 6 && <ActionMove id={id} actionId={actionId} triggers={triggers} setTriggers={setTriggers} />}
       </Grid>
     </Box>
   );

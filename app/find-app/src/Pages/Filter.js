@@ -9,15 +9,10 @@ import {
   TextField,
   Tooltip,
   Paper,
-  Grid,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
-  FormControl,
 } from '@material-ui/core';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import {UnControlled as CodeMirror} from 'react-codemirror2';
-import Action from '../components/Action';
+import Trigger from '../components/Trigger';
 import 'codemirror/addon/selection/active-line';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/zenburn.css';
@@ -29,8 +24,8 @@ function Filter(props) {
   const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [filter, setFilter] = React.useState('');
-  const [wikis, setWikis] = React.useState('');
-  const [triggers, setTriggers] = React.useState({
+  const [triggers, setTriggers] = React.useState([{
+    wikis: "",
     discThread: false,
     discReply: false,
     artCommThread: false,
@@ -38,16 +33,12 @@ function Filter(props) {
     messWallThread: false,
     messWallReply: false,
     repPost: false,
-  });
-  const {
-    discThread,
-    discReply,
-    artCommThread,
-    artCommReply,
-    messWallThread,
-    messWallReply,
-    repPost,
-  } = triggers;
+    actions: [{
+      type: 1,
+      param1: null,
+      param2: null,
+    }],
+  }]);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -61,17 +52,29 @@ function Filter(props) {
     setFilter(value);
   };
 
-  const handleWikisChange = (event) => {
-    setWikis(event.target.value);
-  };
-
-  const handleTriggersChange = (event) => {
-    setTriggers({ ...triggers, [event.target.name]: event.target.checked });
-  };
+  const handleNewTrigger = () => {
+    const newTriggers = [...triggers, {
+      wikis: "",
+      discThread: false,
+      discReply: false,
+      artCommThread: false,
+      artCommReply: false,
+      messWallThread: false,
+      messWallReply: false,
+      repPost: false,
+      actions: [{
+        type: 1,
+        param1: null,
+        param2: null,
+      }],
+    }];
+    setTriggers(newTriggers);
+    console.log(newTriggers);
+  }
 
   const handleSave = (event) => {
     event.preventDefault();
-    console.log(name, description, filter, triggers, wikis);
+    console.log(name, description, filter, triggers);
   };
 
   return (
@@ -114,62 +117,16 @@ function Filter(props) {
           </Paper>
         </div>
         <div className="filter-form-item">
-          <Typography component="h2" variant="h5">
+          <Typography component="h2" variant="h5" width="auto">
             Triggers and Actions
             <Tooltip title="info">
               <InfoOutlinedIcon fontSize="small" />
             </Tooltip>
           </Typography>
-          <Paper variant="outlined">
-            <Grid container spacing={3} className="triggerSection">
-              <Grid item xs={4}>
-                <Typography variant="subtitle1">Wikis</Typography>
-                <TextField id="filter-wikis" multiline rows={5} variant="outlined" onBlur={handleWikisChange} fullWidth/>
-                
-                <FormControl component="fieldset">
-                  <Typography variant="subtitle1">Triggers</Typography>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={<Checkbox checked={discThread} onChange={handleTriggersChange} name="discThread" />}
-                      label="discussion thread"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox checked={discReply} onChange={handleTriggersChange} name="discReply" />}
-                      label="discussion reply"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox checked={artCommThread} onChange={handleTriggersChange} name="artCommThread" />}
-                      label="article comment thread"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox checked={artCommReply} onChange={handleTriggersChange} name="artCommReply" />}
-                      label="article comment reply"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox checked={messWallThread} onChange={handleTriggersChange} name="messWallThread" />}
-                      label="message wall thread"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox checked={messWallReply} onChange={handleTriggersChange} name="messWallReply" />}
-                      label="message wall reply"
-                    />
-                    <FormControlLabel
-                      control={<Checkbox checked={repPost} onChange={handleTriggersChange} name="repPost" />}
-                      label="reported post"
-                    />
-                  </FormGroup>
-                </FormControl>
-              </Grid>
-              <Grid item xs>
-                <Typography variant="subtitle1">Actions (in order)</Typography>
-                <Action />
-                <Button variant="contained" color="primary" type="button">+ Add new action</Button>
-              </Grid>
-            </Grid>
-          </Paper>
+          {triggers.map((o, i) => <Trigger key={i} id={i} triggers={triggers} setTriggers={setTriggers} />)}
         </div>
         <div>
-          <Button variant="contained" color="primary" type="button">+ Add new trigger</Button>
+          <Button variant="contained" color="primary" type="button" onClick={handleNewTrigger}>+ Add new trigger</Button>
         </div>
         <div className="filter-form-buttons">
           <Button variant="contained" color="secondary" type="button" component={Link} to="/">Cancel</Button>

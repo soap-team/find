@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Link,
-  useParams,
 } from 'react-router-dom';
 import { 
   Typography,
@@ -34,7 +33,7 @@ function NavBar(props) {
     <AppBar position="static">
       <Toolbar>
         <Grid justify="space-between" alignItems="center" container>
-          <Grid item align="center">
+          <Grid item>
             <Box display="flex" alignItems="center">
               <SvgIcon component={Link} to="/">
                 {
