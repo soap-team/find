@@ -40,7 +40,7 @@ function Action(props) {
   };
 
   return (
-    <Box component={Paper} variant="outlined" p={2}>
+    <Box component={Paper} variant="outlined" mb={2} p={2}>
       <Grid container direction="column" spacing={2}>
         <Grid item>
           <Grid container alignItems="center">

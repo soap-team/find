@@ -9,7 +9,9 @@ import {
   Checkbox,
   FormControl,
   TextField,
+  Box,
 } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 import Action from '../components/Action';
 
 function Trigger(props) {
@@ -48,7 +50,7 @@ function Trigger(props) {
   }
 
   return (  
-    <Paper variant="outlined">
+    <Box component={Paper} mb={2} p={2} variant="outlined">
       <Grid container spacing={3} className="triggerSection">
         <Grid item xs={4}>
           <Typography variant="subtitle1">Wikis</Typography>
@@ -91,10 +93,10 @@ function Trigger(props) {
         <Grid item xs>
           <Typography variant="subtitle1">Actions (in order)</Typography>
           {triggers[id].actions.map((o, i) => <Action key={i} id={id} actionId={i} action={o} triggers={triggers} setTriggers={setTriggers} />)}
-          <Button variant="contained" color="primary" type="button" onClick={handleNewAction}>+ Add new action</Button>
+          <Button variant="contained" color="primary" type="button" onClick={handleNewAction}><AddIcon fontSize="small" /> Add new action</Button>
         </Grid>
       </Grid>
-    </Paper>
+    </Box>
   );
 }
 

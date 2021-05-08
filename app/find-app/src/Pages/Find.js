@@ -14,6 +14,7 @@ import {
   TableBody,
   Box,
 } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 
 function createData(id, name, enab, hit) {
   return { id, name, enab, hit };
@@ -29,9 +30,9 @@ function Find() {
 
   return (
     <>
-      <Typography component="h1" variant="h5">Filter List</Typography>
-      <Box display="flex" justifyContent="flex-end">
-        <Button variant="contained" color="primary" component={Link} to="/new">+ Add new filter</Button>
+      <Box display="flex" justifyContent="space-between" mb={2}>
+        <Typography component="h1" variant="h5">Filter List</Typography>
+        <Button variant="contained" color="primary" component={Link} to="/new"><AddIcon fontSize="small" /> Add new filter</Button>
       </Box>
       <TableContainer component={Paper} variant="outlined">
         <Table size="small" aria-label="Filter list">
@@ -44,7 +45,7 @@ function Find() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {filterData.map((row) => (
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
                 <Typography component={Link} to={`${row.id}`} variant="body1" className="links" color="inherit">{row.id}</Typography>

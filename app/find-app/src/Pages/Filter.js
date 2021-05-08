@@ -9,7 +9,9 @@ import {
   TextField,
   Tooltip,
   Paper,
+  Box,
 } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import {UnControlled as CodeMirror} from 'react-codemirror2';
 import Trigger from '../components/Trigger';
@@ -84,16 +86,16 @@ function Filter(props) {
   return (
     <>
       <Typography component="h1" variant="h5">Filter #{filterId}</Typography>
-      <form autoComplete="off" onSubmit={handleSave} className="filter-form">
-        <div className="filter-form-item">
+      <Box component="form" autoComplete="off" onSubmit={handleSave} mt={2}>
+        <Box mb={2}>
           <Typography component="label" htmlFor="filter-name" variant="subtitle1">Name</Typography>
           <TextField id="filter-name" variant="outlined" size="small" defaultValue={name} onBlur={handleNameChange} fullWidth />
-        </div>
-        <div className="filter-form-item">
+        </Box>
+        <Box mb={2}>
           <Typography component="label" htmlFor="filter-description" variant="subtitle1">Description</Typography>
           <TextField id="filter-description" multiline rows={5} variant="outlined" defaultValue={description} onBlur={handleDescriptionChange} fullWidth />
-        </div>
-        <div className="filter-form-item">
+        </Box>
+        <Box mb={2}>
           <Typography variant="subtitle1">Filter</Typography>
           <Paper variant="outlined">
             {
@@ -119,8 +121,8 @@ function Filter(props) {
               />
             }
           </Paper>
-        </div>
-        <div className="filter-form-item">
+        </Box>
+        <Box>
           <Typography component="h2" variant="h5" width="auto">
             Triggers and Actions
             <Tooltip title="info">
@@ -128,15 +130,15 @@ function Filter(props) {
             </Tooltip>
           </Typography>
           {triggers.map((o, i) => <Trigger key={i} id={i} triggers={triggers} setTriggers={setTriggers} />)}
-        </div>
-        <div>
-          <Button variant="contained" color="primary" type="button" onClick={handleNewTrigger}>+ Add new trigger</Button>
-        </div>
-        <div className="filter-form-buttons">
+        </Box>
+        <Box>
+          <Button variant="contained" color="primary" type="button" onClick={handleNewTrigger}><AddIcon fontSize="small" /> Add new trigger</Button>
+        </Box>
+        <Box display="flex" justifyContent="flex-end">
           <Button variant="contained" color="secondary" type="button" component={Link} to="/">Cancel</Button>
-          <Button variant="contained" color="primary" type="submit">Save</Button>
-        </div>
-      </form>
+          <Box component={Button} variant="contained" color="primary" type="submit" ml={1}>Save</Box>
+        </Box>
+      </Box>
     </>
   );
 }
