@@ -17,7 +17,25 @@ function Action(props) {
 
   const handleChange = (event) => {
     const newTriggers = [...triggers];
+    newTriggers[id].actions[actionId] = {};
     newTriggers[id].actions[actionId].type = event.target.value;
+    switch (event.target.value) {
+      case 1:
+        newTriggers[id].actions[actionId].text = "";
+        newTriggers[id].actions[actionId].url = "";
+        break;
+      case 4:
+        newTriggers[id].actions[actionId].reply = "";
+        break;
+      case 5:
+        newTriggers[id].actions[actionId].json = "";
+        break;
+      case 6:
+        newTriggers[id].actions[actionId].categoryId = "";
+        break;
+      default:
+        break;
+    }
     setTriggers(newTriggers);
   };
 

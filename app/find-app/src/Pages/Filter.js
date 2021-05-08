@@ -25,18 +25,20 @@ function Filter(props) {
   const [description, setDescription] = React.useState('');
   const [filter, setFilter] = React.useState('');
   const [triggers, setTriggers] = React.useState([{
-    wikis: "",
-    discThread: false,
-    discReply: false,
-    artCommThread: false,
-    artCommReply: false,
-    messWallThread: false,
-    messWallReply: false,
-    repPost: false,
+    wikis: [],
+    triggers: {
+      discThread: false,
+      discReply: false,
+      artCommThread: false,
+      artCommReply: false,
+      messWallThread: false,
+      messWallReply: false,
+      repPost: false,
+    },
     actions: [{
       type: 1,
-      param1: null,
-      param2: null,
+      text: "",
+      url: "",
     }],
   }]);
 
@@ -54,18 +56,20 @@ function Filter(props) {
 
   const handleNewTrigger = () => {
     const newTriggers = [...triggers, {
-      wikis: "",
-      discThread: false,
-      discReply: false,
-      artCommThread: false,
-      artCommReply: false,
-      messWallThread: false,
-      messWallReply: false,
-      repPost: false,
+      wikis: [],
+      triggers: {
+        discThread: false,
+        discReply: false,
+        artCommThread: false,
+        artCommReply: false,
+        messWallThread: false,
+        messWallReply: false,
+        repPost: false,
+      },
       actions: [{
         type: 1,
-        param1: null,
-        param2: null,
+        text: "",
+        url: "",
       }],
     }];
     setTriggers(newTriggers);

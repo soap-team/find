@@ -14,16 +14,6 @@ import Action from '../components/Action';
 
 function Trigger(props) {
   const { id, triggers, setTriggers } = props;
-  //const [wikis, setWikis] = React.useState('');
-  // const [triggers, setTriggers] = React.useState({
-  //   discThread: false,
-  //   discReply: false,
-  //   artCommThread: false,
-  //   artCommReply: false,
-  //   messWallThread: false,
-  //   messWallReply: false,
-  //   repPost: false,
-  // });
   const {
     discThread,
     discReply,
@@ -34,25 +24,26 @@ function Trigger(props) {
     repPost,
     actions,
   } = triggers[id];
-  //const [actions, setActions] = React.useState([{id:1}]);
 
   const handleWikisChange = (event) => {
-    // setWikis(event.target.value);
     const newTriggers = [...triggers];
-    newTriggers[id].wikis = event.target.value;
+    newTriggers[id].wikis = event.target.value.split("\n");
     setTriggers(newTriggers);
   };
 
   const handleTriggersChange = (event) => {
-    //setTriggers({ ...triggers, [event.target.name]: event.target.checked });
     const newArray = [...triggers];
-    newArray[id][event.target.name] = event.target.checked;
+    newArray[id]["triggers"][event.target.name] = event.target.checked;
     setTriggers(newArray);
   };
 
   const handleNewAction = () => {
     const newArray = [...triggers];
-    newArray[id].actions = [...newArray[id].actions, {type: 1}];
+    newArray[id].actions = [...newArray[id].actions, {
+      type: 1,
+      text: "",
+      url: "",
+    }];
     setTriggers(newArray);
   }
 

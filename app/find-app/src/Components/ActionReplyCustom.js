@@ -10,7 +10,7 @@ function ActionReplyCustom(props) {
 
   const handleJSONChange = (event) => {
     const newTriggers = [...triggers];
-    newTriggers[id].actions[actionId].param1 = event.target.value;
+    newTriggers[id].actions[actionId].json = event.target.value;
     setTriggers(newTriggers);
   };
 

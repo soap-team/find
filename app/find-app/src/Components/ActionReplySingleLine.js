@@ -10,7 +10,7 @@ function ActionReplySingleLine(props) {
 
   const handleReplyChange = (event) => {
     const newTriggers = [...triggers];
-    newTriggers[id].actions[actionId].param1 = event.target.value;
+    newTriggers[id].actions[actionId].reply = event.target.value;
     setTriggers(newTriggers);
   };
 
