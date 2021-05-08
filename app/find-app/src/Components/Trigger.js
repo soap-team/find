@@ -53,11 +53,12 @@ function Trigger(props) {
     <Box component={Paper} mb={2} p={2} variant="outlined">
       <Grid container spacing={3} className="triggerSection">
         <Grid item xs={4}>
-          <Typography variant="subtitle1">Wikis</Typography>
-          <TextField id="filter-wikis" multiline rows={5} variant="outlined" onBlur={handleWikisChange} fullWidth/>
-          
+          <Box mb={2}>
+            <Typography component="label" htmlFor="trigger-wikis" variant="subtitle1">Wikis</Typography>
+            <TextField id="trigger-wikis" multiline rows={5} variant="outlined" onBlur={handleWikisChange} fullWidth/>
+          </Box>
           <FormControl component="fieldset" fullWidth>
-            <Typography variant="subtitle1">Triggers</Typography>
+            <Typography component="legend" variant="subtitle1">Triggers</Typography>
             <FormGroup>
               <FormControlLabel
                 control={<Checkbox checked={discThread} onChange={handleTriggersChange} name="discThread" />}
@@ -91,7 +92,7 @@ function Trigger(props) {
           </FormControl>
         </Grid>
         <Grid item xs>
-          <Typography variant="subtitle1">Actions (in order)</Typography>
+          <Typography component="legend" variant="subtitle1">Actions (in order)</Typography>
           {triggers[id].actions.map((o, i) => <Action key={i} id={id} actionId={i} action={o} triggers={triggers} setTriggers={setTriggers} />)}
           <Button variant="contained" color="primary" type="button" onClick={handleNewAction}><AddIcon fontSize="small" /> Add new action</Button>
         </Grid>

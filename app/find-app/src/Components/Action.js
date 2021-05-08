@@ -6,6 +6,8 @@ import {
   Select,
   Paper,
   Box,
+  FormHelperText,
+  FormControl,
 } from '@material-ui/core';
 import ActionLog from './ActionLog';
 import ActionReplySingleLine from './ActionReplySingleLine';
@@ -14,6 +16,7 @@ import ActionMove from './ActionMove';
 
 function Action(props) {
   const { id, actionId, action, triggers, setTriggers } = props;
+  const [moveError, setMoveError] = React.useState(false);
 
   const handleChange = (event) => {
     const newTriggers = [...triggers];
@@ -39,6 +42,16 @@ function Action(props) {
     setTriggers(newTriggers);
   };
 
+  React.useEffect(() => {
+    const validateMove = () => {
+      if (action.type === 6 && triggers[id].wikis.length > 1) {
+        return true;
+      }
+      return false;
+    }
+    setMoveError(validateMove());
+  }, [action.type, id, triggers]);
+
   return (
     <Box component={Paper} variant="outlined" mb={2} p={2}>
       <Grid container direction="column" spacing={2}>
@@ -48,14 +61,17 @@ function Action(props) {
               <Typography component="label" htmlFor="action-type" variant="subtitle1">Type</Typography>
             </Grid>
             <Grid item xs>
-              <Select id="action-type" size="small" variant="outlined" value={action.type} onChange={handleChange} fullWidth>
-                <MenuItem value={1}>Log to Discord</MenuItem>
-                <MenuItem value={2}>Delete</MenuItem>
-                <MenuItem value={3}>Lock (thread only)</MenuItem>
-                <MenuItem value={4}>Reply single line</MenuItem>
-                <MenuItem value={5}>Reply custom</MenuItem>
-                <MenuItem value={6}>Move to category</MenuItem>
-              </Select>
+              <FormControl error={moveError} fullWidth>
+                <Select id="action-type" size="small" variant="outlined" value={action.type} onChange={handleChange} fullWidth>
+                  <MenuItem value={1}>Log to Discord</MenuItem>
+                  <MenuItem value={2}>Delete</MenuItem>
+                  <MenuItem value={3}>Lock (thread only)</MenuItem>
+                  <MenuItem value={4}>Reply single line</MenuItem>
+                  <MenuItem value={5}>Reply custom</MenuItem>
+                  <MenuItem value={6}>Move to category</MenuItem>
+                </Select>
+                <FormHelperText>{moveError ? "You cannot use 'Move to Category' with more than one wiki." : ""}</FormHelperText>
+              </FormControl>
             </Grid>
           </Grid>
         </Grid>

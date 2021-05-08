@@ -96,7 +96,7 @@ function Filter(props) {
           <TextField id="filter-description" multiline rows={5} variant="outlined" defaultValue={description} onBlur={handleDescriptionChange} fullWidth />
         </Box>
         <Box mb={2}>
-          <Typography variant="subtitle1">Filter</Typography>
+          <Typography component="label" variant="subtitle1">Filter</Typography>
           <Paper variant="outlined">
             {
               theme === 'light' ? 
@@ -106,6 +106,7 @@ function Filter(props) {
                   lineNumbers: true,
                   theme: 'default',
                   styleActiveLine: true,
+                  screenReaderLabel: "filter",
                 }}
                 onChange={(editor, data, value) => {
                 }}
@@ -116,6 +117,7 @@ function Filter(props) {
                   lineNumbers: true,
                   theme: 'zenburn',
                   styleActiveLine: true,
+                  screenReaderLabel: "filter",
                 }}
                 onChange={handleFilterChange}
               />

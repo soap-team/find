@@ -21,7 +21,14 @@ function ActionMove(props) {
           <Typography component="label" htmlFor="move" variant="subtitle1">Category ID</Typography>
         </Grid>
         <Grid item xs>
-          <TextField id="move" size="small" variant="outlined" onBlur={handleCategoryChange} fullWidth />
+          <TextField
+            id="move"
+            size="small"
+            variant="outlined"
+            onBlur={handleCategoryChange}
+            defaultValue={triggers[id].actions[actionId].categoryId}
+            fullWidth
+          />
         </Grid>
       </Grid>
     </Grid>

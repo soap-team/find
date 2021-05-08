@@ -35,7 +35,7 @@ function NavBar(props) {
         <Grid justify="space-between" alignItems="center" container>
           <Grid item>
             <Box display="flex" alignItems="center">
-              <SvgIcon component={Link} to="/">
+              <SvgIcon component={Link} to="/" tabindex="-1">
                 {
                   theme === 'light' ?
                   <svg viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg">

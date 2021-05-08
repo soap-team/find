@@ -21,7 +21,14 @@ function ActionReplySingleLine(props) {
           <Typography component="label" htmlFor="reply-single-line" variant="subtitle1">Reply</Typography>
         </Grid>
         <Grid item xs>
-          <TextField id="reply-single-line" size="small" variant="outlined" onBlur={handleReplyChange} fullWidth />
+          <TextField
+            id="reply-single-line"
+            size="small"
+            variant="outlined"
+            onBlur={handleReplyChange}
+            defaultValue={triggers[id].actions[actionId].reply}
+            fullWidth
+          />
         </Grid>
       </Grid>
     </Grid>

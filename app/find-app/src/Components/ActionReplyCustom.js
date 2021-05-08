@@ -5,13 +5,19 @@ import {
   TextField,
 } from '@material-ui/core';
 
+function validateJSON(url) {
+  return false;
+}
+
 function ActionReplyCustom(props) {
   const { id, actionId, triggers, setTriggers } = props;
+  const [jsonError, setJsonError] = React.useState(false);
 
   const handleJSONChange = (event) => {
     const newTriggers = [...triggers];
     newTriggers[id].actions[actionId].json = event.target.value;
     setTriggers(newTriggers);
+    setJsonError(validateJSON(event.target.value));
   };
 
   return (
@@ -21,7 +27,16 @@ function ActionReplyCustom(props) {
           <Typography component="label" htmlFor="reply-custom" variant="subtitle1">JSON</Typography>
         </Grid>
         <Grid item xs>
-          <TextField id="reply-custom" size="small" variant="outlined" onBlur={handleJSONChange} fullWidth />
+          <TextField
+            id="reply-custom"
+            size="small"
+            variant="outlined"
+            onBlur={handleJSONChange}
+            defaultValue={triggers[id].actions[actionId].json}
+            error={jsonError}
+            helperText={jsonError ? "Invalid JSON model was provided." : ""}
+            fullWidth
+          />
         </Grid>
       </Grid>
     </Grid>
