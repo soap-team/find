@@ -53,9 +53,9 @@ const lightTheme = {
       dark: '#648dae',
     },
     error: {
-      main: '#ec0303',
-      light: '#ef3535',
-      dark: '#a50202',
+      main: '#cf2020',
+      light: '#d84c4c',
+      dark: '#901616',
     },
   },
 };
