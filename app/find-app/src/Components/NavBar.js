@@ -30,12 +30,12 @@ function NavBar(props) {
   };
 
   return (  
-    <AppBar position="static">
+    <AppBar position="static" style={theme === 'light' ? { backgroundColor: '#fff' } : { backgroundColor: '#424242', color: '#fff' }}>
       <Toolbar>
         <Grid justify="space-between" alignItems="center" container>
           <Grid item>
             <Box display="flex" alignItems="center">
-              <SvgIcon component={Link} to="/" tabindex="-1">
+              <SvgIcon component={Link} to="/" tabIndex="-1">
                 {
                   theme === 'light' ?
                   <svg viewBox="0 0 35 35" xmlns="http://www.w3.org/2000/svg">

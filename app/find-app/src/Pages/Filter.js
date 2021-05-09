@@ -89,11 +89,27 @@ function Filter(props) {
       <Box component="form" autoComplete="off" onSubmit={handleSave} mt={2}>
         <Box mb={2}>
           <Typography component="label" htmlFor="filter-name" variant="subtitle1">Name</Typography>
-          <TextField id="filter-name" variant="outlined" size="small" defaultValue={name} onBlur={handleNameChange} fullWidth />
+          <TextField
+            style={theme === 'light' ? { backgroundColor: '#fff' } : { backgroundColor: '#424242' }}
+            id="filter-name"
+            variant="outlined"
+            size="small"
+            defaultValue={name}
+            onBlur={handleNameChange}
+            fullWidth
+          />
         </Box>
         <Box mb={2}>
           <Typography component="label" htmlFor="filter-description" variant="subtitle1">Description</Typography>
-          <TextField id="filter-description" multiline rows={5} variant="outlined" defaultValue={description} onBlur={handleDescriptionChange} fullWidth />
+          <TextField
+            style={theme === 'light' ? { backgroundColor: '#fff' } : { backgroundColor: '#424242' }}
+            id="filter-description"
+            multiline rows={5}
+            variant="outlined"
+            defaultValue={description}
+            onBlur={handleDescriptionChange}
+            fullWidth
+          />
         </Box>
         <Box mb={2}>
           <Typography component="label" variant="subtitle1">Filter</Typography>
@@ -108,10 +124,10 @@ function Filter(props) {
                   styleActiveLine: true,
                   screenReaderLabel: "filter",
                 }}
-                onChange={(editor, data, value) => {
-                }}
+                onChange={handleFilterChange}
               /> : 
               <CodeMirror
+                className="codemirror-dark"
                 options={{
                   mode: 'xml',
                   lineNumbers: true,
@@ -134,11 +150,13 @@ function Filter(props) {
           {triggers.map((o, i) => <Trigger key={i} id={i} triggers={triggers} setTriggers={setTriggers} />)}
         </Box>
         <Box>
-          <Button variant="contained" color="primary" type="button" onClick={handleNewTrigger}><AddIcon fontSize="small" /> Add new trigger</Button>
+          <Button variant="contained" type="button" onClick={handleNewTrigger}><AddIcon fontSize="small" /> Add new trigger</Button>
         </Box>
         <Box display="flex" justifyContent="flex-end">
-          <Button variant="contained" color="secondary" type="button" component={Link} to="/">Cancel</Button>
-          <Box component={Button} variant="contained" color="primary" type="submit" ml={1}>Save</Box>
+          <Button variant="contained" type="button" component={Link} to="/">Cancel</Button>
+          <Box ml={1}>
+            <Button variant="contained" color="primary" type="submit">Save</Button>
+          </Box>
         </Box>
       </Box>
     </>

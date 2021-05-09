@@ -48,7 +48,14 @@ const lightTheme = {
   },
   palette: {
     primary: {
-      main: '#fff',
+      main: '#90caf9',
+      light: '#a6d4fa',
+      dark: '#648dae',
+    },
+    error: {
+      main: '#ec0303',
+      light: '#ef3535',
+      dark: '#a50202',
     },
   },
 };
@@ -87,7 +94,14 @@ const darkTheme = {
   palette: {
     type: 'dark',
     primary: {
-      main: '#424242',
+      main: '#90caf9',
+      light: '#a6d4fa',
+      dark: '#648dae',
+    },
+    error: {
+      main: '#ec0303',
+      light: '#ef3535',
+      dark: '#a50202',
     },
   },
 };

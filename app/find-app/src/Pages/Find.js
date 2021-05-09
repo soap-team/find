@@ -32,7 +32,7 @@ function Find() {
     <>
       <Box display="flex" justifyContent="space-between" mb={2}>
         <Typography component="h1" variant="h5">Filter List</Typography>
-        <Button variant="contained" color="primary" component={Link} to="/new"><AddIcon fontSize="small" /> Add new filter</Button>
+        <Button variant="contained" component={Link} to="/new"><AddIcon fontSize="small" /> Add new filter</Button>
       </Box>
       <TableContainer component={Paper} variant="outlined">
         <Table size="small" aria-label="Filter list">
