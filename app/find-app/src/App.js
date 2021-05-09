@@ -99,9 +99,9 @@ const darkTheme = {
       dark: '#648dae',
     },
     error: {
-      main: '#ec0303',
-      light: '#ef3535',
-      dark: '#a50202',
+      main: '#ff9e9e',
+      light: '#ffb1b1',
+      dark: '#b26e6e',
     },
   },
 };
