@@ -43,6 +43,7 @@ function Filter(props) {
       url: "",
     }],
   }]);
+  const [error, setError] = React.useState(false);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -81,6 +82,12 @@ function Filter(props) {
   const handleSave = (event) => {
     event.preventDefault();
     console.log(name, description, filter, triggers);
+    console.log(error);
+    if (!error) {
+      console.log("firebase updated");
+    } else {
+      console.log("there are errors");
+    }
   };
 
   return (
@@ -147,12 +154,12 @@ function Filter(props) {
               <InfoOutlinedIcon fontSize="small" />
             </Tooltip>
           </Typography>
-          {triggers.map((o, i) => <Trigger key={i} id={i} triggers={triggers} setTriggers={setTriggers} />)}
+          {triggers.map((o, i) => <Trigger key={i} id={i} triggers={triggers} setTriggers={setTriggers} error={error} setError={setError} />)}
         </Box>
         <Box>
           <Button variant="contained" type="button" onClick={handleNewTrigger}><AddIcon fontSize="small" /> Add new trigger</Button>
         </Box>
-        <Box display="flex" justifyContent="flex-end">
+        <Box display="flex" justifyContent="flex-end" mb={2}>
           <Button variant="contained" type="button" component={Link} to="/">Cancel</Button>
           <Box ml={1}>
             <Button variant="contained" color="primary" type="submit">Save</Button>

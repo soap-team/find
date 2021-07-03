@@ -15,7 +15,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Action from '../components/Action';
 
 function Trigger(props) {
-  const { id, triggers, setTriggers } = props;
+  const { id, triggers, setTriggers, error, setError } = props;
   const {
     discThread,
     discReply,
@@ -24,7 +24,6 @@ function Trigger(props) {
     messWallThread,
     messWallReply,
     repPost,
-    actions,
   } = triggers[id];
 
   const handleWikisChange = (event) => {
@@ -93,7 +92,7 @@ function Trigger(props) {
         </Grid>
         <Grid item xs>
           <Typography component="legend" variant="subtitle1">Actions (in order)</Typography>
-          {triggers[id].actions.map((o, i) => <Action key={i} id={id} actionId={i} action={o} triggers={triggers} setTriggers={setTriggers} />)}
+          {triggers[id].actions.map((o, i) => <Action key={i} id={id} actionId={i} action={o} triggers={triggers} setTriggers={setTriggers} error={error} setError={setError}/>)}
           <Button variant="contained" type="button" onClick={handleNewAction}><AddIcon fontSize="small" /> Add new action</Button>
         </Grid>
       </Grid>

@@ -6,18 +6,25 @@ import {
 } from '@material-ui/core';
 
 function validateJSON(url) {
-  return false;
+  try {
+    JSON.parse(url);
+    return false;
+  } catch (e) {
+    return true;
+  }
 }
 
 function ActionReplyCustom(props) {
-  const { id, actionId, triggers, setTriggers } = props;
+  const { id, actionId, triggers, setTriggers, error, setError } = props;
   const [jsonError, setJsonError] = React.useState(false);
 
   const handleJSONChange = (event) => {
     const newTriggers = [...triggers];
     newTriggers[id].actions[actionId].json = event.target.value;
     setTriggers(newTriggers);
-    setJsonError(validateJSON(event.target.value));
+    const isError = validateJSON(event.target.value);
+    setJsonError(isError);
+    setError(error || isError);
   };
 
   return (

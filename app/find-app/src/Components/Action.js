@@ -15,7 +15,7 @@ import ActionReplyCustom from './ActionReplyCustom';
 import ActionMove from './ActionMove';
 
 function Action(props) {
-  const { id, actionId, action, triggers, setTriggers } = props;
+  const { id, actionId, action, triggers, setTriggers, error, setError } = props;
   const [moveError, setMoveError] = React.useState(false);
 
   const handleChange = (event) => {
@@ -49,8 +49,10 @@ function Action(props) {
       }
       return false;
     }
-    setMoveError(validateMove());
-  }, [action.type, id, triggers]);
+    const isError = validateMove();
+    setMoveError(isError);
+    setError(error || isError);
+  }, [action.type, id, triggers, error, setError]);
 
   return (
     <Box component={Paper} variant="outlined" mb={2} p={2}>
@@ -75,9 +77,9 @@ function Action(props) {
             </Grid>
           </Grid>
         </Grid>
-        {action.type === 1 && <ActionLog id={id} actionId={actionId} triggers={triggers} setTriggers={setTriggers} />}
+        {action.type === 1 && <ActionLog id={id} actionId={actionId} triggers={triggers} setTriggers={setTriggers} error={error} setError={setError} />}
         {action.type === 4 && <ActionReplySingleLine id={id} actionId={actionId} triggers={triggers} setTriggers={setTriggers} />}
-        {action.type === 5 && <ActionReplyCustom id={id} actionId={actionId} triggers={triggers} setTriggers={setTriggers} />}
+        {action.type === 5 && <ActionReplyCustom id={id} actionId={actionId} triggers={triggers} setTriggers={setTriggers} error={error} setError={setError} />}
         {action.type === 6 && <ActionMove id={id} actionId={actionId} triggers={triggers} setTriggers={setTriggers} />}
       </Grid>
     </Box>

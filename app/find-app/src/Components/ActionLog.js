@@ -13,7 +13,7 @@ function validateUrl(url) {
 }
 
 function ActionLog(props) {
-  const { id, actionId, triggers, setTriggers } = props;
+  const { id, actionId, triggers, setTriggers, error, setError } = props;
   const [urlError, setUrlError] = React.useState(false);
 
   const handleTextChange = (event) => {
@@ -26,7 +26,10 @@ function ActionLog(props) {
     const newTriggers = [...triggers];
     newTriggers[id].actions[actionId].url = event.target.value;
     setTriggers(newTriggers);
-    setUrlError(validateUrl(event.target.value));
+    const isError = validateUrl(event.target.value);
+    console.log(isError);
+    setUrlError(isError);
+    setError(error || isError);
   };
 
   return (
